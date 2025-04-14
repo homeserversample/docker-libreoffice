@@ -6,12 +6,17 @@ services:
     security_opt:
       - seccomp:unconfined #optional
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=${PUID}
+      - PGID=${PGID}
       - TZ=Etc/UTC
     volumes:
-      - /path/to/config:/config
+      - ./config:/config
+      - ./docs:/docs
     ports:
-      - 3000:3000
       - 3001:3001
     restart: unless-stopped
+    labels: 
+      tsdproxy.enable: true
+      tsdproxy.scheme: https
+      tsdproxy.tlsvalidate: false
+      tsdproxy.container_port: "3001"
